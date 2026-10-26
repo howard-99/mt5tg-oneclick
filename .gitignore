@@ -1,0 +1,18 @@
+# Never commit proprietary binaries, private credentials, platform archives, or logs.
+*.exe
+*.dll
+*.zip
+*.tar.gz
+*.7z
+*.ex5
+*.mq5
+*.env
+.env*
+*.pem
+*.key
+*.p12
+*.log
+*.token
+*.secret
+__pycache__/
+.DS_Store
