@@ -13,7 +13,7 @@ cleanup(){ [[ -z $work ]] || rm -rf -- "$work"; }
 trap cleanup EXIT
 usage(){
 cat <<'EOF'
-MT5TG compiler installer v1.0.0 for platform v21.26.0
+MT5TG compiler installer v1.0.1 for platforms v21.26.0 and v21.27.0
 Usage: sudo bash install.sh [OPTIONS]
   --compiler-only          Configure the installed platform compiler (default).
   --with-platform          Install the pinned private platform release first.
@@ -26,6 +26,9 @@ Ubuntu 24.04/26.04 x86_64 with systemd is required.
 Remote downloads require read access to the private platform release.
 With a local editor, compiler-only setup needs no GitHub authentication.
 EOF
+}
+supported_compiler_platform(){
+ case "$1" in v21.26.0|v21.27.0) return 0 ;; *) return 1 ;; esac
 }
 while (($#)); do
  case "$1" in
@@ -68,7 +71,7 @@ github(){
 }
 if [[ $with_platform == true ]]; then
  if [[ -f /opt/mt5tg/VERSION && -f /etc/mt5tg/platform.env && ! -f /etc/mt5tg/install-incomplete ]]; then
-  [[ $(tr -d '[:space:]' </opt/mt5tg/VERSION) == "$TAG" ]] || die 'Upgrade the existing platform with its release launcher first.'
+  supported_compiler_platform "$(tr -d '[:space:]' </opt/mt5tg/VERSION)" || die 'Upgrade the existing platform with its release launcher first.'
  else
   [[ ! -f /etc/mt5tg/platform.env || -f /etc/mt5tg/install-incomplete ]] || die 'Existing configuration requires a platform upgrade.'
   github
@@ -78,7 +81,7 @@ if [[ $with_platform == true ]]; then
  fi
 fi
 [[ -f /etc/mt5tg/platform.env && -f /opt/mt5tg/VERSION ]] || die 'Install the platform first, or use --with-platform.'
-[[ $(tr -d '[:space:]' </opt/mt5tg/VERSION) == "$TAG" ]] || die "Install or upgrade to $TAG first."
+supported_compiler_platform "$(tr -d '[:space:]' </opt/mt5tg/VERSION)" || die 'This helper supports platform v21.26.0 and v21.27.0.'
 [[ ! -f /etc/mt5tg/install-incomplete ]] || die 'Finish the interrupted platform installation first.'
 [[ -s /opt/mt5tg/scripts/configure-ea-compiler.bash ]] || die 'Installed compiler helper is missing.'
 if [[ -z $editor ]]; then
@@ -96,8 +99,10 @@ verify "$EDITOR_SHA256" "$editor" || die 'Editor checksum mismatch.'
 bash /opt/mt5tg/scripts/configure-ea-compiler.bash "$editor" "$EDITOR_SHA256"
 systemctl is-active --quiet mt5tg-api mt5tg-ea-builder || die 'API or EA builder is inactive.'
 ready=false
+api_port=$(systemctl show mt5tg-api.service --property=ExecStart --value | sed -nE 's/.*--port ([0-9]+).*/\1/p')
+[[ $api_port =~ ^[0-9]{1,5}$ && $api_port -gt 0 && $api_port -le 65535 ]] || die 'Unable to determine the installed API readiness port.'
 for attempt in {1..30}; do
- if curl -fsS --max-time 3 http://127.0.0.1:8765/health/ready >/dev/null; then ready=true; break; fi
+ if curl -fsS --max-time 3 "http://127.0.0.1:$api_port/health/ready" >/dev/null; then ready=true; break; fi
  sleep 1
 done
 [[ $ready == true ]] || die 'API readiness failed; inspect journalctl -u mt5tg-api.'
