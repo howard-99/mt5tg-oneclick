@@ -14,7 +14,12 @@ if command -v wine >/dev/null 2>&1; then wine --version; else echo 'Wine unavail
 check systemctl is-active --quiet mt5tg-api
 check systemctl is-active --quiet mt5tg-ea-builder
 check systemctl is-active --quiet nginx
-check curl -fsS --max-time 8 http://127.0.0.1:8765/health/ready
+api_port=$(systemctl show mt5tg-api.service --property=ExecStart --value | sed -nE 's/.*--port ([0-9]+).*/\1/p')
+if [[ $api_port =~ ^[0-9]{1,5}$ && $api_port -gt 0 && $api_port -le 65535 ]]; then
+  check curl -fsS --max-time 8 "http://127.0.0.1:$api_port/health/ready"
+else
+  echo 'FAIL: unable to determine installed API readiness port'; failed=$((failed+1))
+fi
 check test -s "$EDITOR_PATH"
 if [[ -s "$EDITOR_PATH" ]]; then
   digest=$(sha256sum "$EDITOR_PATH" | awk '{print $1}')
