@@ -10,7 +10,7 @@ platform download remains pinned to published v21.26.0 until a newer platform
 release is qualified and published.
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/howard-99/mt5tg-oneclick/aff7c744a3c9fcd12e13b5b33b51c6eac3955fdc/install.sh -o /tmp/mt5tg-compiler-install.sh
+curl -fsSL https://raw.githubusercontent.com/howard-99/mt5tg-oneclick/91790f38e21dcbdbb9a1852eeb2f8cb4c348d239/install.sh -o /tmp/mt5tg-compiler-install.sh
 sudo bash /tmp/mt5tg-compiler-install.sh
 ```
 
