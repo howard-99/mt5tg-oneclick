@@ -1,19 +1,20 @@
 # MT5TG compiler installer
 
 Install the personalized MT5 EA compiler after installing MT5 to Telegram
-**v21.26.0 or v21.27.0** on Ubuntu **24.04 or 26.04 x86_64**.
+**v21.26.0, v21.27.0, v21.28.0-rc.1, v21.29.0-rc.1, v21.30.0-rc.1 or v21.31.0-rc.1** on Ubuntu **24.04 or 26.04 x86_64**.
 
-Installer v1.0.1 detects the installed API port, including legacy port 8000.
+Installer v1.0.5 adds explicit v21.28.0-rc.1, v21.29.0-rc.1, v21.30.0-rc.1 and v21.31.0-rc.1 compatibility and detects the
+installed API port, including legacy port 8000.
 The command pins the tested script to an immutable source revision. Its optional
 platform download remains pinned to published v21.26.0 until a newer platform
 release is qualified and published.
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/howard-99/mt5tg-oneclick/aff7c744a3c9fcd12e13b5b33b51c6eac3955fdc/install.sh -o /tmp/mt5tg-compiler-install.sh
+curl -fsSL https://raw.githubusercontent.com/howard-99/mt5tg-oneclick/5e6739e324da83d3532e38dfbdb30b66ea0311bc/install.sh -o /tmp/mt5tg-compiler-install.sh
 sudo bash /tmp/mt5tg-compiler-install.sh
 ```
 
-The default configures an existing v21.26.0 or v21.27.0 installation. GitHub CLI asks you to
+The default configures an existing supported installation. GitHub CLI asks you to
 authorize read access to `howard-99/MT5-to-Telegram` to download the approved editor
 from its private release. The editor checksum is pinned. The platform helper
 provisions Wine 10+, Xvfb and the four CPU targets in a detached systemd unit,

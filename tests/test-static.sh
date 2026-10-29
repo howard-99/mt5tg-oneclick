@@ -5,6 +5,13 @@ for script in install.sh upload-editor.sh diagnose.sh tests/test-static.sh; do
   bash -n "$script"
 done
 bash install.sh --help | grep -Fq -- '--compiler-only'
+source <(sed -n '/^supported_compiler_platform(){/,/^}/p' install.sh)
+for version in v21.26.0 v21.27.0 v21.28.0-rc.1 v21.29.0-rc.1 v21.30.0-rc.1 v21.31.0-rc.1; do
+  supported_compiler_platform "$version"
+done
+for version in v21.25.0 v21.28.0 v21.28.0-rc.2 v21.29.0 v21.29.0-rc.2 v21.30.0 v21.30.0-rc.2 v21.31.0 v21.31.0-rc.2 v22.0.0 unknown ''; do
+  if supported_compiler_platform "$version"; then exit 1; fi
+done
 if bash install.sh --unknown-option >/dev/null 2>&1; then exit 1; fi
 if bash install.sh --editor-file >/dev/null 2>&1; then exit 1; fi
 if bash install.sh --editor-file --with-platform >/dev/null 2>&1; then exit 1; fi
