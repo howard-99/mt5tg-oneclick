@@ -13,7 +13,7 @@ cleanup(){ [[ -z $work ]] || rm -rf -- "$work"; }
 trap cleanup EXIT
 usage(){
 cat <<'EOF'
-MT5TG compiler installer v1.0.5 for platforms v21.26.0, v21.27.0, v21.28.0-rc.1, v21.29.0-rc.1, v21.30.0-rc.1 and v21.31.0-rc.1
+MT5TG compiler installer v1.0.6 for platforms v21.26.0, v21.27.0, v21.28.0-rc.1, v21.29.0-rc.1, v21.30.0-rc.1, v21.31.0-rc.1 and v21.32.0
 Usage: sudo bash install.sh [OPTIONS]
   --compiler-only          Configure the installed platform compiler (default).
   --with-platform          Install the pinned private platform release first.
@@ -28,7 +28,7 @@ With a local editor, compiler-only setup needs no GitHub authentication.
 EOF
 }
 supported_compiler_platform(){
- case "$1" in v21.26.0|v21.27.0|v21.28.0-rc.1|v21.29.0-rc.1|v21.30.0-rc.1|v21.31.0-rc.1) return 0 ;; *) return 1 ;; esac
+ case "$1" in v21.26.0|v21.27.0|v21.28.0-rc.1|v21.29.0-rc.1|v21.30.0-rc.1|v21.31.0-rc.1|v21.32.0) return 0 ;; *) return 1 ;; esac
 }
 while (($#)); do
  case "$1" in
@@ -81,7 +81,7 @@ if [[ $with_platform == true ]]; then
  fi
 fi
 [[ -f /etc/mt5tg/platform.env && -f /opt/mt5tg/VERSION ]] || die 'Install the platform first, or use --with-platform.'
-supported_compiler_platform "$(tr -d '[:space:]' </opt/mt5tg/VERSION)" || die 'This helper supports platform v21.26.0, v21.27.0, v21.28.0-rc.1, v21.29.0-rc.1, v21.30.0-rc.1 and v21.31.0-rc.1.'
+supported_compiler_platform "$(tr -d '[:space:]' </opt/mt5tg/VERSION)" || die 'This helper supports platform v21.26.0, v21.27.0, v21.28.0-rc.1, v21.29.0-rc.1, v21.30.0-rc.1, v21.31.0-rc.1 and v21.32.0.'
 [[ ! -f /etc/mt5tg/install-incomplete ]] || die 'Finish the interrupted platform installation first.'
 [[ -s /opt/mt5tg/scripts/configure-ea-compiler.bash ]] || die 'Installed compiler helper is missing.'
 if [[ -z $editor ]]; then
