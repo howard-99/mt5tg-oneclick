@@ -1,16 +1,16 @@
 # MT5TG compiler installer
 
 Install the personalized MT5 EA compiler after installing MT5 to Telegram
-**v21.26.0, v21.27.0, v21.28.0-rc.1, v21.29.0-rc.1, v21.30.0-rc.1, v21.31.0-rc.1 or v21.32.0** on Ubuntu **24.04 or 26.04 x86_64**.
+**v21.26.0, v21.27.0, v21.28.0-rc.1, v21.29.0-rc.1, v21.30.0-rc.1, v21.31.0-rc.1 v21.32.0 or v21.33.0** on Ubuntu **24.04 or 26.04 x86_64**.
 
-Installer v1.0.6 adds explicit v21.28.0-rc.1, v21.29.0-rc.1, v21.30.0-rc.1 v21.31.0-rc.1 and v21.32.0 compatibility and detects the
+Installer v1.0.7 adds explicit v21.28.0-rc.1, v21.29.0-rc.1, v21.30.0-rc.1 v21.31.0-rc.1 v21.32.0 and v21.33.0 compatibility and detects the
 installed API port, including legacy port 8000.
 The command pins the tested script to an immutable source revision. Its optional
 platform download remains pinned to published v21.26.0 until a newer platform
 release is qualified and published.
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/howard-99/mt5tg-oneclick/cd684445640bb025ae21efba856dadebd7b5e6ad/install.sh -o /tmp/mt5tg-compiler-install.sh
+curl -fsSL https://raw.githubusercontent.com/howard-99/mt5tg-oneclick/0109cf5fabaf256fcdf75180887b6a4bd8a981d3/install.sh -o /tmp/mt5tg-compiler-install.sh
 sudo bash /tmp/mt5tg-compiler-install.sh
 ```
 
